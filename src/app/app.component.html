@@ -1,0 +1,13 @@
+<hello name="{{ name }}"></hello>
+<p>
+  Start editing to see some magic happen :)
+</p>
+
+<app-pie-chart
+  [results]="[lose32RealsData]"
+  [view]="[200, 250]"
+  [scheme]="{ domain: [lose32RealsData.color] }"
+  [designatedTotal]="lose32RealsData.total"
+  [label]="lose32RealsData.legend"
+  labelTrim="false"
+></app-pie-chart>
