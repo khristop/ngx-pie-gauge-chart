@@ -1,0 +1,65 @@
+<ngx-charts-chart [view]="[width, height]" [showLegend]="false" [animations]="animations">
+  <svg:g [attr.transform]="transform" class="pie-grid chart">
+    <svg:g *ngFor="let series of series" class="pie-grid-item" [attr.transform]="series.transform">
+      <svg:g
+        ngx-charts-pie-grid-series
+        [colors]="series.colors"
+        [data]="series.data"
+        [innerRadius]="series.innerRadius"
+        [outerRadius]="series.outerRadius"
+        [animations]="animations"
+        (select)="onClick($event)"
+        ngx-tooltip
+        [tooltipDisabled]="tooltipDisabled"
+        [tooltipPlacement]="'top'"
+        [tooltipType]="'tooltip'"
+        [tooltipTitle]="tooltipTemplate ? undefined : tooltipText({ data: series })"
+        [tooltipTemplate]="tooltipTemplate"
+        [tooltipContext]="series.data[0].data"
+        (activate)="onActivate($event)"
+        (deactivate)="onDeactivate($event)"
+      />
+      <svg:text
+        *ngIf="animations && !customLabel"
+        class="label percent-label"
+        dy="-0.5em"
+        x="0"
+        y="5"
+        [ngStyle]="{'font-size': '20px', 'fill': colorScale?.colorDomain[0], 'font-weight': 'bold'}"
+        ngx-charts-count-up
+        [countTo]="series.percent"
+        [countSuffix]="'%'"
+        text-anchor="middle"
+        [valueFormatting]='valueFormatting'
+        [countDecimals]='2'
+      ></svg:text>
+      <svg:text
+        *ngIf="animations && customLabel"
+        class="label percent-label"
+        dy="-0.5em"
+        x="0"
+        y="5"
+        [ngStyle]="{'font-size': '20px', 'fill': colorScale?.colorDomain[0], 'font-weight': 'bold'}"
+        text-anchor="middle"
+      >{{customLabel}}</svg:text>
+      <svg:text *ngIf="!animations" class="label percent-label" dy="-0.5em" x="0" y="5" text-anchor="middle">
+        {{ series.percent }}
+      </svg:text>
+      <svg:text class="label" dy="0.5em" x="0" y="5" text-anchor="middle">
+          <tspan x="0" dy="1.2em" *ngFor="let labelSection of series.label.split('\n')" [ngStyle]="{ fill: '#607d8b' }">
+            {{ labelSection }}
+          </tspan>
+      </svg:text>
+      <svg:text
+        *ngIf="animations"
+        class="label"
+        dy="2.23em"
+        x="0"
+        [attr.y]="series.outerRadius"
+        text-anchor="middle"
+        [ngStyle]="{ fill: '#607d8b' }"
+      > {{ label }}
+    </svg:text>
+    </svg:g>
+  </svg:g>
+</ngx-charts-chart>
