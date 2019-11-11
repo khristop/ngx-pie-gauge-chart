@@ -58,7 +58,8 @@
         [attr.y]="series.outerRadius"
         text-anchor="middle"
         [ngStyle]="{ fill: '#607d8b' }"
-      > {{ label }}
+      >
+       <tspan *ngFor="let line of lines" x="0" dy="15">{{ line }}</tspan>
     </svg:text>
     </svg:g>
   </svg:g>

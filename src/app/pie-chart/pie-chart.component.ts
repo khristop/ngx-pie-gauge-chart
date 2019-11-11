@@ -14,7 +14,13 @@ export class PieChartComponent extends BaseChartComponent {
   @Input() designatedTotal: number = 100;
   @Input() tooltipDisabled: boolean = false;
   @Input() tooltipText: (o: any) => any;
-  @Input() label: string = 'Total';
+  
+  lines: string[];
+  @Input() 
+  set label(label: string) {
+    this.lines = this.splitLines(label, 15);
+    console.log(this.lines);
+  };
   @Input() minWidth: number = 150;
   @Input() activeEntries: any[] = [];
   @Input() customLabel: string;
@@ -31,6 +37,14 @@ export class PieChartComponent extends BaseChartComponent {
   margin = [20, 20, 20, 20];
 
   @ContentChild('tooltipTemplate', null) tooltipTemplate: TemplateRef<any>;
+
+  splitLines(str, maxLength){
+    if(str.length <= maxLength)
+        return str;
+    var reg = new RegExp(".{1," + maxLength + "}","g");
+    var parts = str.match(reg);
+    return parts;
+}
 
   update(): void {
     super.update();
